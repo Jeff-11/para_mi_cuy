@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información del Paseador</title>
+    <link rel="stylesheet" href="info.css">
+</head>
+<body>
+ 
+    <div id="paseador-info-container"></div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const paseadorId = urlParams.get('id');
+    
+        const paseadores = [
+            { id: '1', descripcion: 'Desde que llegaste a mi vida, cada día se ha llenado de luz y alegría. Gracias por ser mi compañera, mi confidente y mi amor. Te amo más de lo que las palabras pueden expresar. Eres lo mejor que me ha pasado. 💖', contenido: { tipo: 'imagen', valor: 'yole.jpg' }, calificacion: 5 },
+    
+            { id: '2', descripcion: 'Cada día a tu lado descubro nuevas razones para amarte. Eres mi sueño hecho realidad y mi inspiración para ser mejor. En este día especial, quiero que sepas que eres el centro de mi universo. ¡Feliz San Valentín, mi amor! 💘', contenido: { tipo: 'video', valor: 'video1.mp4' }, calificacion: 5 },
+    
+            { id: '3', descripcion: 'Eres la razón por la que mi corazón late con fuerza y por la que mi sonrisa es más brillante. Gracias por llenar mi vida de amor y felicidad. Hoy y siempre, quiero estar a tu lado. Te amo más de lo que las estrellas brillan en el cielo. ✨', contenido: { tipo: 'imagen', valor: 'amor10.jpg' }, calificacion: 5},
+    
+            { id: '5', descripcion: 'En este día de San Valentín, quiero recordarte lo especial que eres para mí. Tu amor es el regalo más preciado que he recibido. Cada momento a tu lado es un tesoro que atesoro con todo mi ser. ¡Feliz día, mi amor! 🌹', contenido: { tipo: 'video', valor: 'video2.mp4' }, calificacion: 5},
+    
+            
+        ];
+    
+        const paseador = paseadores.find(p => p.id === paseadorId);
+    
+        if (paseador) {
+            const paseadorInfoContainer = document.getElementById('paseador-info-container');
+    
+            const paseadorInfo = document.createElement('div');
+            paseadorInfo.classList.add('paseador-box');
+    
+            if (paseador.contenido.tipo === 'imagen') {
+                const paseadorImage = document.createElement('img');
+                paseadorImage.src = paseador.contenido.valor;
+                paseadorImage.classList.add('paseador-image');
+                paseadorInfo.appendChild(paseadorImage);
+            } else if (paseador.contenido.tipo === 'video') {
+                const paseadorVideo = document.createElement('video');
+                paseadorVideo.src = paseador.contenido.valor;
+                paseadorVideo.classList.add('paseador-video');
+                paseadorVideo.controls = true;
+                paseadorInfo.appendChild(paseadorVideo);
+            }
+    
+            const paseadorDetails = document.createElement('div');
+            paseadorDetails.classList.add('paseador-details');
+    
+            const paseadorNombre = document.createElement('h2');
+            paseadorNombre.textContent = paseador.nombre;
+            paseadorDetails.appendChild(paseadorNombre);
+    
+            const paseadorDescripcion = document.createElement('p');
+            paseadorDescripcion.textContent = paseador.descripcion;
+            paseadorDetails.appendChild(paseadorDescripcion);
+    
+            const paseadorRating = document.createElement('div');
+            paseadorRating.classList.add('paseador-rating');
+            paseadorRating.innerHTML = generateRatingStars(paseador.calificacion);
+            paseadorDetails.appendChild(paseadorRating);
+    
+            const reservaButton = document.createElement('a');
+            reservaButton.classList.add('reserva-button');
+            reservaButton.textContent = 'PERFECTA AMORCITO';
+            paseadorDetails.appendChild(reservaButton);
+    
+            paseadorInfo.appendChild(paseadorDetails);
+    
+            paseadorInfoContainer.appendChild(paseadorInfo);
+        } else {
+            const paseadorInfoContainer = document.getElementById('paseador-info-container');
+            paseadorInfoContainer.innerHTML = '<p>No se encontró información del paseador.</p>';
+        }
+    
+        function generateRatingStars(rating) {
+            const maxStars = 5;
+            const fullStar = '★';
+            const emptyStar = '☆';
+    
+            const fullStarsCount = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+    
+            let starsHTML = '';
+    
+            for (let i = 0; i < fullStarsCount; i++) {
+                starsHTML += fullStar;
+            }
+    
+            if (hasHalfStar) {
+                starsHTML += `${fullStar}${emptyStar.repeat(maxStars - fullStarsCount - 1)}`;
+            } else {
+                starsHTML += emptyStar.repeat(maxStars - fullStarsCount);
+            }
+    
+            return starsHTML;
+        }
+    </script>
+    
+</body>
+</html>
